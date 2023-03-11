@@ -1,5 +1,5 @@
 use web_sys::HtmlInputElement;
-use yew::*;
+use yew::prelude::*;
 
 #[function_component]
 fn App() -> Html {
@@ -11,10 +11,7 @@ fn App() -> Html {
         let input_value_handle = input_value_handle.clone();
         Callback::from(move |e: InputEvent| {
             let el = e.target_unchecked_into::<HtmlInputElement>();
-            // if let Some(text) = el.inner_text() {
-            // log::info!("{:?}", text);
             input_value_handle.set(el.inner_text());
-            // }
         })
     };
 
@@ -42,6 +39,5 @@ fn App() -> Html {
     }
 }
 fn main() {
-    wasm_logger::init(wasm_logger::Config::default());
     yew::Renderer::<App>::new().render();
 }
