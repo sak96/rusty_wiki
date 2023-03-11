@@ -6,5 +6,6 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+markdown = "0.3.0"
 yew = { version = "0.20", features = ["csr"] }
 web-sys = { version = "0.3", features = ["HtmlInputElement"] }
