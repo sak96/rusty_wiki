@@ -16,9 +16,15 @@ pub fn SpanTag(SpanProps { span }: &SpanProps) -> Html {
         Span::Break => html! {<br/>},
         Span::Text(value) => html! {<span>{value}</span>},
         Span::Code(value) => html! {<code>{value}</code>},
-        Span::Link(_, _, _) => todo!(),
-        Span::Image(_, _, _) => todo!(),
-        Span::Emphasis(_) => todo!(),
-        Span::Strong(_) => todo!(),
+        Span::Link(text, href, title) => {
+            html! {
+            <a href={href.to_string()} title={title.clone().unwrap_or_default()}>{text}</a>
+            }
+        }
+        Span::Image(alt, src, title) => {
+            html! { <img src={src.to_string()} alt={alt.to_string()} title={title.clone().unwrap_or_default()} /> }
+        }
+        Span::Emphasis(spans) => html! {<i>{spans_to_html(spans)}</i>},
+        Span::Strong(spans) => html! {<b>{spans_to_html(spans)}</b>},
     }
 }
