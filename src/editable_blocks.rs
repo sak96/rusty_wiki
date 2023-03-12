@@ -114,8 +114,8 @@ pub fn EditableBlocks(
             <div class="markdown-editor-help" hidden={!*editable}>
                 <div>
                     <button onclick={move |_| save.emit(())}>{"\u{1F4BE}"}</button>
-                    <button onclick={move |_| del.emit(())}>{"\u{1F5D1}"}</button>
                     if !content.is_empty(){
+                        <button onclick={move |_| del.emit(())}>{"\u{1F5D1}"}</button>
                         <button onclick={move |_| exit.emit(())}>{"\u{2716}"}</button>
                     }
                 </div>
