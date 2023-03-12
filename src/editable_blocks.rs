@@ -1,6 +1,6 @@
 use crate::editor::EditorAction;
-use web_sys::{HtmlElement, KeyboardEvent};
 use crate::node::node_to_html;
+use web_sys::{HtmlElement, KeyboardEvent};
 
 use yew::prelude::*;
 

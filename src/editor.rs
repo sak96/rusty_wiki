@@ -1,5 +1,5 @@
-use crate::node::split_to_nodes;
 use crate::editable_blocks::EditableBlocks;
+use crate::node::split_to_nodes;
 use std::rc::Rc;
 
 use yew::prelude::*;
