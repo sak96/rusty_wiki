@@ -86,6 +86,11 @@ pub fn Editor() -> Html {
                 .markdown-editor-help {
                     text-align: center;
                 }
+                @media (max-width: 500px) {
+                    .markdown-editor > div {
+                        width: 100%
+                    }
+                }
             "#}
             </style>
             <div>
