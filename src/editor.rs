@@ -1,4 +1,4 @@
-use crate::block::split_to_blocks;
+use crate::node::split_to_nodes;
 use crate::editable_blocks::EditableBlocks;
 use std::rc::Rc;
 
@@ -38,7 +38,7 @@ impl Reducible for EditorState {
                         content.push(new_content);
                     }
                     let c = content.join("\n");
-                    *content = split_to_blocks(&c);
+                    *content = split_to_nodes(&c);
                     *editable = content.len();
                 }
                 EditorAction::Delete(idx) => {
@@ -114,6 +114,5 @@ pub fn Editor() -> Html {
             }
             </div>
         </>
-
     }
 }

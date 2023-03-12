@@ -1,6 +1,6 @@
-use crate::block::block_to_html;
 use crate::editor::EditorAction;
 use web_sys::{HtmlElement, KeyboardEvent};
+use crate::node::node_to_html;
 
 use yew::prelude::*;
 
@@ -93,7 +93,7 @@ pub fn EditableBlocks(
             _ => {}
         })
     };
-    let blocks = markdown::tokenize(&input_value_handle);
+
     let mut class = None;
     if *editable {
         class = Some("markdown-editor");
@@ -109,7 +109,7 @@ pub fn EditableBlocks(
                     contenteditable="true"
                     ref={content_editable}
                     />
-                    <div ondblclick={make_editable} >{block_to_html(&blocks)}</div>
+                    <div ondblclick={make_editable} >{node_to_html(&input_value_handle)}</div>
             </div>
             <div class="markdown-editor-help" hidden={!*editable}>
                 <div>

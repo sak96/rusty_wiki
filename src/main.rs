@@ -1,9 +1,8 @@
 use yew::prelude::*;
 
-mod block;
 mod editable_blocks;
 mod editor;
-mod span;
+mod node;
 
 #[function_component]
 fn App() -> Html {
