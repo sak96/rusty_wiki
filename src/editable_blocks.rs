@@ -64,7 +64,7 @@ pub fn EditableBlocks(
         let onchange = onchange.clone();
         Callback::from(move |_| onchange.emit(EditorAction::Delete(idx)))
     };
-    let reset = {
+    let exit = {
         let onchange = onchange.clone();
         let input_value_handle = input_value_handle.clone();
         let content = content.clone();
@@ -74,25 +74,23 @@ pub fn EditableBlocks(
         })
     };
     let save_exit_del = {
-        let onchange = onchange.clone();
-        let content = content.clone();
-        let input_value_handle = input_value_handle.clone();
-        Callback::from(move |k: KeyboardEvent| {
-            let editor_action = match k.key().as_str() {
-                "Enter" if k.shift_key() => {
-                    Some(EditorAction::Replace(idx, input_value_handle.to_string()))
-                }
-                "Delete" if k.shift_key() => Some(EditorAction::Delete(idx)),
-                "Escape" => {
-                    input_value_handle.set(content.to_string());
-                    Some(EditorAction::ResetEditable)
-                }
-                _ => None,
-            };
-            if let Some(action) = editor_action {
+        let exit = exit.clone();
+        let save = save.clone();
+        let del = del.clone();
+        Callback::from(move |k: KeyboardEvent| match k.key().as_str() {
+            "Enter" if k.shift_key() => {
+                save.emit(());
                 k.prevent_default();
-                onchange.emit(action);
             }
+            "Delete" if k.shift_key() => {
+                del.emit(());
+                k.prevent_default();
+            }
+            "Escape" => {
+                exit.emit(());
+                k.prevent_default();
+            }
+            _ => {}
         })
     };
     let blocks = markdown::tokenize(&input_value_handle);
@@ -115,9 +113,11 @@ pub fn EditableBlocks(
             </div>
             <div class="markdown-editor-help" hidden={!*editable}>
                 <div>
-                    <button onclick={save}>{"\u{1F4BE}"}</button>
-                    <button onclick={del}>{"\u{1F5D1}"}</button>
-                    <button onclick={reset}>{"\u{1F504}"}</button>
+                    <button onclick={move |_| save.emit(())}>{"\u{1F4BE}"}</button>
+                    <button onclick={move |_| del.emit(())}>{"\u{1F5D1}"}</button>
+                    if !content.is_empty(){
+                        <button onclick={move |_| exit.emit(())}>{"\u{2716}"}</button>
+                    }
                 </div>
                 <strong>{"dbl-click -> select | Shift+enter -> save |  Shift+Del -> delete | ESC -> exit"}</strong>
             </div>
