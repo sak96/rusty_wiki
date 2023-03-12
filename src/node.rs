@@ -1,21 +1,30 @@
-use markdown::{Options, ParseOptions};
+use markdown_it::MarkdownIt;
 use yew::prelude::*;
 
+lazy_static! {
+    static ref MD_PRASER: MarkdownIt = {
+        let mut parser = MarkdownIt::new();
+        markdown_it::plugins::cmark::add(&mut parser);
+        markdown_it::plugins::extra::add(&mut parser);
+        parser
+    };
+}
+
 pub fn split_to_nodes(text: &str) -> Vec<String> {
-    markdown::to_mdast(text, &ParseOptions::gfm())
-        .unwrap()
-        .children()
-        .map(|nodes| {
-            nodes
-                .iter()
-                .map(|node| node.to_string())
-                .collect::<Vec<_>>()
+    MD_PRASER
+        .parse(text)
+        .children
+        .iter()
+        .filter_map(|node| {
+            node.srcmap.map(|pos| {
+                let (x, y) = pos.get_byte_offsets();
+                text[x..y].to_string()
+            })
         })
-        .unwrap_or_default()
+        .collect()
 }
 
 pub fn node_to_html(content: &str) -> Html {
-    let md_html =
-        markdown::to_html_with_options(content, &Options::gfm()).expect("parsing failed!");
+    let md_html = MD_PRASER.parse(content).render();
     Html::from_html_unchecked(AttrValue::from(md_html))
 }
