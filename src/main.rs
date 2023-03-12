@@ -1,6 +1,7 @@
 use yew::prelude::*;
 
 mod block;
+mod editable_blocks;
 mod editor;
 mod span;
 

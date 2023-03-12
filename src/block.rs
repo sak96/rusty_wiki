@@ -2,6 +2,13 @@ use crate::span::spans_to_html;
 use markdown::{Block, ListItem};
 use yew::prelude::*;
 
+pub fn split_to_blocks(text: &str) -> Vec<String> {
+    markdown::tokenize(text)
+        .into_iter()
+        .map(|block| markdown::generate_markdown(vec![block]))
+        .collect()
+}
+
 pub fn block_to_html(blocks: &[Block]) -> Html {
     html! {blocks.iter().map(|block: &Block| html! {<BlockTag block={block.clone()}/>}).collect::<Html>()}
 }
