@@ -53,6 +53,26 @@ pub fn EditableBlocks(
             onchange.emit(EditorAction::Editable(idx));
         })
     };
+    let save = {
+        let onchange = onchange.clone();
+        let input_value_handle = input_value_handle.clone();
+        Callback::from(move |_| {
+            onchange.emit(EditorAction::Replace(idx, input_value_handle.to_string()));
+        })
+    };
+    let del = {
+        let onchange = onchange.clone();
+        Callback::from(move |_| onchange.emit(EditorAction::Delete(idx)))
+    };
+    let reset = {
+        let onchange = onchange.clone();
+        let input_value_handle = input_value_handle.clone();
+        let content = content.clone();
+        Callback::from(move |_| {
+            input_value_handle.set(content.to_string());
+            onchange.emit(EditorAction::ResetEditable);
+        })
+    };
     let save_exit_del = {
         let onchange = onchange.clone();
         let content = content.clone();
@@ -94,6 +114,11 @@ pub fn EditableBlocks(
                     <div ondblclick={make_editable} >{block_to_html(&blocks)}</div>
             </div>
             <div class="markdown-editor-help" hidden={!*editable}>
+                <div>
+                    <button onclick={save}>{"\u{1F4BE}"}</button>
+                    <button onclick={del}>{"\u{1F5D1}"}</button>
+                    <button onclick={reset}>{"\u{1F504}"}</button>
+                </div>
                 <strong>{"dbl-click -> select | Shift+enter -> save |  Shift+Del -> delete | ESC -> exit"}</strong>
             </div>
         </>
