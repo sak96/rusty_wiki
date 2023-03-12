@@ -93,7 +93,9 @@ pub fn EditableBlocks(
                     />
                     <div ondblclick={make_editable} >{block_to_html(&blocks)}</div>
             </div>
-            <div class="markdown-editor-help" hidden={!*editable}>{"Use "}<b>{"Shift+enter"}</b>{" -> save "}<b>{"Shift+Del"}</b>{" -> del "}<b>{"Esc"}</b>{" -> exit"}</div>
+            <div class="markdown-editor-help" hidden={!*editable}>
+                <strong>{"dbl-click -> select | Shift+enter -> save |  Shift+Del -> delete | ESC -> exit"}</strong>
+            </div>
         </>
     }
 }
