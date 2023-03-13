@@ -18,7 +18,7 @@ pub fn split_to_nodes(text: &str) -> Vec<String> {
         .filter_map(|node| {
             node.srcmap.map(|pos| {
                 let (x, y) = pos.get_byte_offsets();
-                text[x..y].to_string()
+                text[x..y].replace("\n\n", "\n")
             })
         })
         .collect()
