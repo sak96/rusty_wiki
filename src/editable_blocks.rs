@@ -94,10 +94,11 @@ pub fn EditableBlocks(
         })
     };
 
-    let mut class = None;
-    if *editable {
-        class = Some("markdown-editor");
-    }
+    let class = if *editable {
+        "markdown-editor"
+    } else {
+        "markdown-viewer"
+    };
 
     html! {
         <>

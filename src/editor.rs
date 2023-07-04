@@ -77,6 +77,9 @@ pub fn Editor() -> Html {
                     flex-wrap: wrap;
                     min-height: 5 rem;
                 }
+                .markdown-viewer {
+                    margin: auto 25%;
+                }
                 .markdown-editor > div {
                     width: 50%;
                     padding: 1rem;
